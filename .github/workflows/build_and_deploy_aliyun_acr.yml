@@ -37,4 +37,4 @@ jobs:
       - name: push docker image
         run: |
           docker push registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GITHUB_REF##*/}:${{ github.run_number }}
-          docker push registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GGITHUB_REF##*/}:latest
+          docker push registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GITHUB_REF##*/}:latest
