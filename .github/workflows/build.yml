@@ -1,9 +1,11 @@
 # name: Dependabot post-update
 name: Build detection
 on:
-  pull_request_target:
-    types: [opened, synchronize, reopened]
+  push:
     branches:
+      - dev
+      - dev-*
+      - release-*
       - main
 
 env:
@@ -19,14 +21,12 @@ permissions:
 
 jobs:
   post-update:
-    if: github.repository == 'vbenjs/vue-vben-admin'
-    # if: ${{ github.actor == 'dependabot[bot]' }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os:
           - ubuntu-latest
-          # - macos-latest
+          - macos-latest
           - windows-latest
     steps:
       - name: Checkout code
@@ -34,15 +34,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout out pull request
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr checkout ${{ github.event.pull_request.number }}
-
       - name: Setup Node
         uses: ./.github/actions/setup-node
 
       - name: Build
         run: |
           pnpm run build
+
+      - name: Build Docker image
+        run: |
+          docker build -t "registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GITHUB_REF##*/}:${{ github.run_number }}" ./apps/web-ele/
+          docker build -t "registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GITHUB_REF##*/}:latest" ./apps/web-ele/
