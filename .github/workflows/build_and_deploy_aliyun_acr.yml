@@ -8,26 +8,11 @@ on:
       - release-*
       - main
 
-env:
-  HUSKY: '0'
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-  pull-requests: write
-
 jobs:
   post-update:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-#          - macos-latest
-#          - windows-latest
+    runs-on: ubuntu-22.04
+    env:
+      REPO_NAME: ${{ github.event.repository.name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,13 +28,13 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t "registry.cn-hongkong.aliyuncs.com/sunsulei/smart-vue-${GITHUB_REF##*/}:${{ github.run_number }}" ./apps/web-ele/
-          docker build -t "registry.cn-hongkong.aliyuncs.com/sunsulei/smart-vue-${GITHUB_REF##*/}:latest" ./apps/web-ele/
+          docker build -t "registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GITHUB_REF##*/}:${{ github.run_number }}" ./apps/web-ele/
+          docker build -t "registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GITHUB_REF##*/}:latest" ./apps/web-ele/
 
       - name: Login aliyun Registry
         run: |
           docker login -u ${{ secrets.ALIYUN_DOCKER_USERNAME }} -p '${{ secrets.ALIYUN_DOCKER_PASSWORD }}' registry.cn-hongkong.aliyuncs.com
       - name: push docker image
         run: |
-          docker push registry.cn-hongkong.aliyuncs.com/sunsulei/smart-vue-${GITHUB_REF##*/}:${{ github.run_number }}
-          docker push registry.cn-hongkong.aliyuncs.com/sunsulei/smart-vue-${GGITHUB_REF##*/}:latest
+          docker push registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GITHUB_REF##*/}:${{ github.run_number }}
+          docker push registry.cn-hongkong.aliyuncs.com/sunsulei/$REPO_NAME-${GGITHUB_REF##*/}:latest
