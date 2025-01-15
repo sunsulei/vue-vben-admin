@@ -182,6 +182,9 @@ const item = reactive({
 onMounted(() => {
   subMenu?.addSubMenu?.(item);
   rootMenu?.addSubMenu?.(item);
+  if (import.meta.env.VITE_SECOND_MENU_OPENED) {
+    rootMenu.openedMenus = Object.keys(rootMenu.subMenus);
+  }
 });
 
 onBeforeUnmount(() => {

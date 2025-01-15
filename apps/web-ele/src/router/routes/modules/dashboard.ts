@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       icon: 'lucide:layout-dashboard',
       order: -1,
-      title: $t('page.dashboard.title'),
+      title: '总览',
     },
     name: 'Dashboard',
     path: '/',

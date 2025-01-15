@@ -8,6 +8,12 @@ import { defineOverridesPreferences } from '@vben/preferences';
 export const overridesPreferences = defineOverridesPreferences({
   app: {
     layout: 'sidebar-mixed-nav',
+    name: '主数据管理平台',
+    // accessMode: 'backend',
+  },
+  logo: {
+    source:
+      'https://static.fat.ennew.com/ennew/mdm/frontend/mdm-web/master/img/ennew-logo-new.8dbeeb49.png',
   },
   breadcrumb: {
     hideOnlyOne: true,
@@ -31,6 +37,7 @@ export const overridesPreferences = defineOverridesPreferences({
     width: 200,
   },
   tabbar: {
+    enable: false,
     showMore: false,
     styleType: 'card',
   },
@@ -40,5 +47,8 @@ export const overridesPreferences = defineOverridesPreferences({
   widget: {
     languageToggle: false,
     lockScreen: false,
+  },
+  navigation: {
+    accordion: false,
   },
 });

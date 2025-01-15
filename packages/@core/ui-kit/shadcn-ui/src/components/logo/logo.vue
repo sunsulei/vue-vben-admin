@@ -52,7 +52,7 @@ withDefaults(defineProps<Props>(), {
         v-if="src"
         :alt="text"
         :src="src"
-        class="relative w-8 rounded-none bg-transparent"
+        class="relative w-full rounded-none bg-transparent mix-blend-difference"
       />
       <span
         v-if="!collapsed"
