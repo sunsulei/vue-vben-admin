@@ -10,6 +10,7 @@ export const overridesPreferences = defineOverridesPreferences({
     layout: 'sidebar-mixed-nav',
     name: '主数据管理平台',
     // accessMode: 'backend',
+    enableCheckUpdates: false,
   },
   logo: {
     source:
