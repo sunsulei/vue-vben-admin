@@ -14,36 +14,36 @@ defineOptions({ name: 'Login' });
 const authStore = useAuthStore();
 
 const MOCK_USER_OPTIONS: BasicOption[] = [
-  {
-    label: 'Super',
-    value: 'vben',
-  },
-  {
-    label: 'Admin',
-    value: 'admin',
-  },
-  {
-    label: 'User',
-    value: 'jack',
-  },
+  // {
+  //   label: 'Super',
+  //   value: 'vben',
+  // },
+  // {
+  //   label: 'Admin',
+  //   value: 'admin',
+  // },
+  // {
+  //   label: 'User',
+  //   value: 'jack',
+  // },
 ];
 
 const formSchema = computed((): VbenFormSchema[] => {
   return [
-    {
-      component: 'VbenSelect',
-      componentProps: {
-        options: MOCK_USER_OPTIONS,
-        placeholder: $t('authentication.selectAccount'),
-      },
-      fieldName: 'selectAccount',
-      label: $t('authentication.selectAccount'),
-      rules: z
-        .string()
-        .min(1, { message: $t('authentication.selectAccount') })
-        .optional()
-        .default('vben'),
-    },
+    // {
+    //   component: 'VbenSelect',
+    //   componentProps: {
+    //     options: MOCK_USER_OPTIONS,
+    //     placeholder: $t('authentication.selectAccount'),
+    //   },
+    //   fieldName: 'selectAccount',
+    //   label: $t('authentication.selectAccount'),
+    //   rules: z
+    //     .string()
+    //     .min(1, { message: $t('authentication.selectAccount') })
+    //     .optional()
+    //     .default('vben'),
+    // },
     {
       component: 'VbenInput',
       componentProps: {
@@ -67,6 +67,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       },
       fieldName: 'username',
       label: $t('authentication.username'),
+      value: '18888888888',
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
     },
     {
@@ -76,6 +77,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       },
       fieldName: 'password',
       label: $t('authentication.password'),
+      value: '123456',
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
     {
