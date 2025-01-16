@@ -1,6 +1,9 @@
 import { initPreferences } from '@vben/preferences';
 import { unmountGlobalLoading } from '@vben/utils';
 
+import mdi from '@iconify/json/json/mdi.json';
+import { addCollection } from '@iconify/vue';
+
 import { overridesPreferences } from './preferences';
 
 /**
@@ -18,6 +21,8 @@ async function initApplication() {
     namespace,
     overrides: overridesPreferences,
   });
+
+  addCollection(mdi);
 
   // 启动应用并挂载
   // vue应用主要逻辑及视图
