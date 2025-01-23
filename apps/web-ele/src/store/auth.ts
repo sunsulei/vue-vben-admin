@@ -24,15 +24,21 @@ export const useAuthStore = defineStore('auth', () => {
    * Asynchronously handle the login process
    * @param params 登录表单数据
    */
-  async function authLogin(
-    params: Recordable<any>,
-    onSuccess?: () => Promise<void> | void,
-  ) {
+  async function authLogin(params: Recordable<any>, onSuccess?: () => Promise<void> | void) {
     // 异步处理用户登录操作并获取 accessToken
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+      const { success, msg, data } = await loginApi(params);
+      if (!success) {
+        ElNotification({
+          message: msg,
+          title: $t('authentication.loginFailed'),
+          type: 'error',
+        });
+        return;
+      }
+      const { accessToken } = data;
 
       // 如果成功获取到 accessToken
       if (accessToken) {

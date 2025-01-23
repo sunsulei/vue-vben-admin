@@ -294,6 +294,9 @@ catalogs:
     lint-staged:
       specifier: ^15.3.0
       version: 15.4.0
+    lodash:
+      specifier: ^4.17.21
+      version: 4.17.21
     lodash.clonedeep:
       specifier: ^4.5.0
       version: 4.5.0
@@ -571,6 +574,9 @@ importers:
       lint-staged:
         specifier: 'catalog:'
         version: 15.4.0
+      lodash:
+        specifier: 'catalog:'
+        version: 4.17.21
       playwright:
         specifier: 'catalog:'
         version: 1.49.1
@@ -680,6 +686,9 @@ importers:
       element-plus:
         specifier: 'catalog:'
         version: 2.9.3(vue@3.5.13(typescript@5.7.3))
+      lodash:
+        specifier: 'catalog:'
+        version: 4.17.21
       pinia:
         specifier: ^2.3.0
         version: 2.3.0(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
@@ -1362,9 +1371,6 @@ importers:
 
   packages/effects/common-ui:
     dependencies:
-      '@iconify/json':
-        specifier: 'catalog:'
-        version: 2.2.295
       '@vben-core/form-ui':
         specifier: workspace:*
         version: link:../../@core/ui-kit/form-ui

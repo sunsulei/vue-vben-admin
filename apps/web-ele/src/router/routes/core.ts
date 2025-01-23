@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
+import { BasicLayout } from '@vben/layouts';
 
 import { AuthPageLayout } from '#/layouts';
 import { $t } from '#/locales';
@@ -58,8 +59,7 @@ const coreRoutes: RouteRecordRaw[] = [
       {
         name: 'QrCodeLogin',
         path: 'qrcode-login',
-        component: () =>
-          import('#/views/_core/authentication/qrcode-login.vue'),
+        component: () => import('#/views/_core/authentication/qrcode-login.vue'),
         meta: {
           title: $t('page.auth.qrcodeLogin'),
         },
@@ -67,8 +67,7 @@ const coreRoutes: RouteRecordRaw[] = [
       {
         name: 'ForgetPassword',
         path: 'forget-password',
-        component: () =>
-          import('#/views/_core/authentication/forget-password.vue'),
+        component: () => import('#/views/_core/authentication/forget-password.vue'),
         meta: {
           title: $t('page.auth.forgetPassword'),
         },
@@ -85,4 +84,39 @@ const coreRoutes: RouteRecordRaw[] = [
   },
 ];
 
-export { coreRoutes, fallbackNotFoundRoute };
+/** 仪表盘路由 */
+const dashboardRoutes: RouteRecordRaw[] = [
+  {
+    component: BasicLayout,
+    meta: {
+      icon: 'lucide:layout-dashboard',
+      order: -1,
+      title: '总览',
+    },
+    name: 'Dashboard',
+    path: '/',
+    children: [
+      {
+        name: 'Analytics',
+        path: '/analytics',
+        component: () => import('#/views/dashboard/analytics/index.vue'),
+        meta: {
+          affixTab: true,
+          icon: 'lucide:area-chart',
+          title: $t('page.dashboard.analytics'),
+        },
+      },
+      {
+        name: 'Workspace',
+        path: '/workspace',
+        component: () => import('#/views/dashboard/workspace/index.vue'),
+        meta: {
+          icon: 'carbon:workspace',
+          title: $t('page.dashboard.workspace'),
+        },
+      },
+    ],
+  },
+];
+
+export { coreRoutes, dashboardRoutes, fallbackNotFoundRoute };

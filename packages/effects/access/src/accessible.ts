@@ -1,8 +1,4 @@
-import type {
-  AccessModeType,
-  GenerateMenuAndRoutesOptions,
-  RouteRecordRaw,
-} from '@vben/types';
+import type { AccessModeType, GenerateMenuAndRoutesOptions, RouteRecordRaw } from '@vben/types';
 
 import {
   cloneDeep,
@@ -12,10 +8,7 @@ import {
   mapTree,
 } from '@vben/utils';
 
-async function generateAccessible(
-  mode: AccessModeType,
-  options: GenerateMenuAndRoutesOptions,
-) {
+async function generateAccessible(mode: AccessModeType, options: GenerateMenuAndRoutesOptions) {
   const { router } = options;
 
   options.routes = cloneDeep(options.routes);
@@ -33,29 +26,48 @@ async function generateAccessible(
   return { accessibleMenus, accessibleRoutes };
 }
 
+function mergeNodes(nodes1, nodes2) {
+  const map = new Map();
+
+  // 先将 tree1 的节点加入 map
+  for (const node of nodes1) {
+    map.set(node.path, { ...node });
+  }
+
+  // 用 tree2 的节点覆盖 tree1
+  for (const node of nodes2) {
+    if (map.has(node.path)) {
+      // 如果路径相同，合并子节点
+      const existingNode = map.get(node.path);
+      map.set(node.path, {
+        ...node,
+        children: mergeNodes(existingNode.children || [], node.children || []),
+      });
+    } else {
+      map.set(node.path, { ...node });
+    }
+  }
+
+  return [...map.values()];
+}
+
 /**
  * Generate routes
  * @param mode
  * @param options
  */
-async function generateRoutes(
-  mode: AccessModeType,
-  options: GenerateMenuAndRoutesOptions,
-) {
+async function generateRoutes(mode: AccessModeType, options: GenerateMenuAndRoutesOptions) {
   const { forbiddenComponent, roles, routes } = options;
 
   let resultRoutes: RouteRecordRaw[] = routes;
   switch (mode) {
     case 'backend': {
-      resultRoutes = await generateRoutesByBackend(options);
+      const backendRoutes = await generateRoutesByBackend(options);
+      resultRoutes = mergeNodes(resultRoutes, backendRoutes);
       break;
     }
     case 'frontend': {
-      resultRoutes = await generateRoutesByFrontend(
-        routes,
-        roles || [],
-        forbiddenComponent,
-      );
+      resultRoutes = await generateRoutesByFrontend(routes, roles || [], forbiddenComponent);
       break;
     }
   }

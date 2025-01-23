@@ -9,6 +9,7 @@ import { $t } from '@vben/locales';
 
 import {
   Button,
+  Input,
   Pagination,
   PaginationEllipsis,
   PaginationFirst,
@@ -39,6 +40,8 @@ interface Props {
   modelValueProp?: string;
   /** 图标样式 */
   iconClass?: string;
+  /** 是否只读 */
+  readonly?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -49,6 +52,7 @@ const props = withDefaults(defineProps<Props>(), {
   iconSlot: 'default',
   iconClass: 'size-4',
   modelValueProp: 'value',
+  readonly: false,
 });
 
 const emit = defineEmits<{
@@ -80,15 +84,10 @@ const currentList = computed(() => {
 });
 
 const showList = computed(() => {
-  return currentList.value.filter((item) =>
-    item.includes(keywordDebounce.value),
-  );
+  return currentList.value.filter((item) => item.includes(keywordDebounce.value));
 });
 
-const { paginationList, total, setCurrentPage } = usePagination(
-  showList,
-  props.pageSize,
-);
+const { paginationList, total, setCurrentPage } = usePagination(showList, props.pageSize);
 
 watchEffect(() => {
   currentSelect.value = modelValue.value;
@@ -113,11 +112,11 @@ const handlePageChange = (page: number) => {
 };
 
 function toggleOpenState() {
-  visible.value = !visible.value;
+  visible.value ? close() : open();
 }
 
 function open() {
-  visible.value = true;
+  visible.value = !props.readonly;
 }
 
 function close() {
@@ -150,6 +149,7 @@ defineExpose({ toggleOpenState, open, close });
         :is="inputComponent"
         :[modelValueProp]="currentSelect"
         :placeholder="$t('ui.iconPicker.placeholder')"
+        @click="(e: any) => props.readonly && e.stopPropagation()"
       >
         <template #[iconSlot]>
           <VbenIcon :icon="currentSelect || Grip" class="size-4" />
@@ -157,7 +157,7 @@ defineExpose({ toggleOpenState, open, close });
       </component>
     </template>
     <div class="mb-2 flex w-full">
-      <component :is="inputComponent" v-bind="searchInputProps" />
+      <Input v-bind="searchInputProps" />
     </div>
 
     <template v-if="paginationList.length > 0">
@@ -189,10 +189,7 @@ defineExpose({ toggleOpenState, open, close });
           size="small"
           @update:page="handlePageChange"
         >
-          <PaginationList
-            v-slot="{ items }"
-            class="flex w-full items-center gap-1"
-          >
+          <PaginationList v-slot="{ items }" class="flex w-full items-center gap-1">
             <PaginationFirst class="size-5" />
             <PaginationPrev class="size-5" />
             <template v-for="(item, index) in items">
@@ -209,12 +206,7 @@ defineExpose({ toggleOpenState, open, close });
                   {{ item.value }}
                 </Button>
               </PaginationListItem>
-              <PaginationEllipsis
-                v-else
-                :key="item.type"
-                :index="index"
-                class="size-5"
-              />
+              <PaginationEllipsis v-else :key="item.type" :index="index" class="size-5" />
             </template>
             <PaginationNext class="size-5" />
             <PaginationLast class="size-5" />

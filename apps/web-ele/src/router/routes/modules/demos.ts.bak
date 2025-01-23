@@ -26,6 +26,7 @@ const routes: RouteRecordRaw[] = [
       {
         meta: {
           title: $t('demos.form'),
+          iframeSrc: 'https://www.baidu.com',
         },
         name: 'BasicForm',
         path: '/demos/form',

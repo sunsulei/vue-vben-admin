@@ -33,10 +33,7 @@ function createRequestClient(baseURL: string) {
     const accessStore = useAccessStore();
     const authStore = useAuthStore();
     accessStore.setAccessToken(null);
-    if (
-      preferences.app.loginExpiredMode === 'modal' &&
-      accessStore.isAccessChecked
-    ) {
+    if (preferences.app.loginExpiredMode === 'modal' && accessStore.isAccessChecked) {
       accessStore.setLoginExpired(true);
     } else {
       await authStore.logout();
@@ -72,10 +69,8 @@ function createRequestClient(baseURL: string) {
   // response数据解构
   client.addResponseInterceptor<HttpResponse>({
     fulfilled: (response) => {
-      const { data: responseData, status } = response;
-
-      const { code, data } = responseData;
-      if (status >= 200 && status < 400 && code === 0) {
+      const { data, status } = response;
+      if (status >= 200 && status < 400) {
         return data;
       }
       throw Object.assign({}, response, { response });

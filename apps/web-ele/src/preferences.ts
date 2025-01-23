@@ -9,7 +9,7 @@ export const overridesPreferences = defineOverridesPreferences({
   app: {
     layout: 'sidebar-mixed-nav',
     name: '主数据管理平台',
-    // accessMode: 'backend',
+    accessMode: 'backend',
     enableCheckUpdates: false,
   },
   logo: {

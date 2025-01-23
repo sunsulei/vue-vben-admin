@@ -12,6 +12,6 @@ useElementPlusDesignTokens();
 
 <template>
   <ElConfigProvider :locale="elementLocale">
-    <RouterView />
+    <RouterView class="h-full overflow-y-hidden" />
   </ElConfigProvider>
 </template>
