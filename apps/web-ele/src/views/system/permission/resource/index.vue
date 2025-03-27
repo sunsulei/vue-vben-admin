@@ -197,7 +197,7 @@ const filterTableData = computed(() => {
       row-key="id"
       border
       v-loading="tableParam.loading"
-      default-expand-all
+      :default-expand-all="false"
     >
       <ElTableColumn prop="title" label="名称" class-name="title">
         <template #header="{ column }">
@@ -247,7 +247,7 @@ const filterTableData = computed(() => {
         <template #default="{ row }">
           <div class="flex items-center justify-between">
             <span>{{ row.path }}</span>
-            <ElTag v-if="row.iframe" size="small" type="success" class="ml-1">网页</ElTag>
+            <ElTag v-if="row.iframe" size="small" type="success" class="ml-1">外部</ElTag>
           </div>
         </template>
       </ElTableColumn>

@@ -26,7 +26,7 @@ async function generateAccessible(mode: AccessModeType, options: GenerateMenuAnd
   return { accessibleMenus, accessibleRoutes };
 }
 
-function mergeNodes(nodes1, nodes2) {
+function mergeNodes(nodes1: any, nodes2: any) {
   const map = new Map();
 
   // 先将 tree1 的节点加入 map

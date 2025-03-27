@@ -106,7 +106,7 @@ const [Form, formApi] = useVbenForm({
             append: h(ElCheckbox, {
               modelValue: obj.iframe,
               disabled: readonly,
-              label: '网页',
+              label: '外部',
               onChange: (v) => formApi.setFieldValue('iframe', v),
             }),
           };
